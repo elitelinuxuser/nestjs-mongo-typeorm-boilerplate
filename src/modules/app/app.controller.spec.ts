@@ -1,4 +1,6 @@
+import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import { User, UserSchema } from '../user/entities/user.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -8,7 +10,13 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        AppService,
+        {
+          provide: getModelToken(User.name),
+          useValue: UserSchema,
+        },
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);
