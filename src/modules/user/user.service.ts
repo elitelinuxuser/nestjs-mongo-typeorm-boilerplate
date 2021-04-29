@@ -12,6 +12,10 @@ export class UserService {
     return this.userRepository.create(createUserDto);
   }
 
+  async createMany(createUserDtos: [CreateUserDto]): Promise<User[]> {
+    return this.userRepository.createMany(createUserDtos);
+  }
+
   async findAll(): Promise<User[]> {
     return this.userRepository.findAll();
   }
@@ -20,11 +24,27 @@ export class UserService {
     return this.userRepository.findOne(id);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    return this.userRepository.update(id, updateUserDto);
+  async update(updateUserDto: UpdateUserDto): Promise<User> {
+    return this.userRepository.update(updateUserDto);
   }
 
-  async remove(id: string) {
-    return this.userRepository.remove(id);
+  async updateMany(updateUserDtos: [UpdateUserDto]): Promise<User[]> {
+    return this.userRepository.updateMany(updateUserDtos);
+  }
+
+  async ban(id: string): Promise<User> {
+    return this.userRepository.ban(id);
+  }
+
+  async banMany(ids: [string]): Promise<User[]> {
+    return this.userRepository.banMany(ids);
+  }
+
+  async unban(id: string): Promise<User> {
+    return this.userRepository.ban(id);
+  }
+
+  async unbanMany(ids: [string]): Promise<User[]> {
+    return this.userRepository.banMany(ids);
   }
 }
