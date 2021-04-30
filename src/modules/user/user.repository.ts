@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
+import { FilterUserDto } from './dto/filter-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './entities/user.entity';
 
@@ -72,4 +73,9 @@ export class UserRepository {
     }
     return bannedUsers;
   }
+
+  async getByFilter(filter: FilterUserDto): Promise<User[]> {
+    return this.userModel.find(filter).exec();
+  }
+
 }
