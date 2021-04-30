@@ -42,7 +42,7 @@ export class CreateUserDto {
   createdAt: Date;
 
   @isDate()
-  creatoronboarded: Date;
+  creatorOnboarded: Date;
 
   @isDate()
   firstAppLogin: Date;
