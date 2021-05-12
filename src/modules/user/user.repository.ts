@@ -16,10 +16,10 @@ export class UserRepository {
   }
 
   async createMany(createUserDtos: [CreateUserDto]): Promise<User[]> {
-    let newUsers = [];
+    const newUsers = [];
     for await(let createUserDto of createUserDtos){
       const newUser = new this.userModel(createUserDto);
-      let savedUser = await newUser.save();
+      const savedUser = await newUser.save();
       newUsers.push(savedUser);
     }
     return newUsers;
@@ -33,17 +33,15 @@ export class UserRepository {
     return this.userModel.findById(id).exec();
   }
 
-  async update(updateUserDto: UpdateUserDto): Promise<User> {
-    const id = updateUserDto.id;
+  async update(id:string, updateUserDto: UpdateUserDto): Promise<User> {
     return this.userModel.findOneAndUpdate({ id }, updateUserDto,{new: true}).exec();
   }
 
-  async updateMany(updateUserDtos: [UpdateUserDto]): Promise<User[]> {
-    let updatedUsers = [];
-    for await(let updateUserDto of updateUserDtos){
-    let id = updateUserDto.id; 
-    let updatedUser = await this.userModel.findOneAndUpdate({ id },updateUserDto,{new: true});
-    updatedUser ? updatedUsers.push(updatedUser) : null;
+  async updateMany(ids:[string], updateUserDto: UpdateUserDto): Promise<User[]> {
+    const updatedUsers = [];
+    for await(let _id of ids){
+    const updatedUser = await this.userModel.findOneAndUpdate({ _id },updateUserDto,{new: true});
+    if(updatedUser) updatedUsers.push(updatedUser);
     }
     return updatedUsers;
   }
@@ -53,10 +51,10 @@ export class UserRepository {
   }
 
   async banMany(ids: [string]): Promise<User[]> {
-    let bannedUsers = [];
+    const bannedUsers = [];
     for await(let id of ids){
-    let bannedUser = await this.userModel.findOneAndUpdate({ id },{status:"BANNED"},{new: true});
-    bannedUser ? bannedUsers.push(bannedUser) : null;
+    const bannedUser = await this.userModel.findOneAndUpdate({ id },{status:"BANNED"},{new: true});
+    if (bannedUser) bannedUsers.push(bannedUser);
     }
     return bannedUsers;
   }

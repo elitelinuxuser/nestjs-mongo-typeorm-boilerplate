@@ -1,11 +1,11 @@
-import { IsEmail, IsNotEmpty, Contains, isDate, IsMongoId } from 'class-validator';
+import { IsEmail, IsNotEmpty, Contains, isDate, IsMongoId, IsEnum } from 'class-validator';
+import {configTypeEnum} from "../entities/configuration.entity";
 
 export class CreateConfigurationDto {
-
   payload: Object;
 
-  @Contains("AUTO_APPROVE_PAGE | AUTO_APPROVE_TIER")
-  type: string
+  @IsEnum(configTypeEnum)
+  type: String;
 
   enabled: Boolean;
 }

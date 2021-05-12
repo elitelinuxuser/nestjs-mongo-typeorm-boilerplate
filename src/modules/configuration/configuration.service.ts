@@ -23,4 +23,8 @@ export class ConfigurationService {
   async update(updateConfigurationDto: UpdateConfigurationDto): Promise<Configuration> {
     return this.configurationRepository.update(updateConfigurationDto);
   }
+
+  async updateMany(ids:[string], updateConfigurationDto: UpdateConfigurationDto): Promise<Configuration[]> {
+    return this.configurationRepository.updateManyById(ids,updateConfigurationDto);
+  }
 }

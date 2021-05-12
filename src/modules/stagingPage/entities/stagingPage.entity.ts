@@ -3,6 +3,13 @@ import { Document, Types } from 'mongoose';
 
 export type StagingPageDocument = StagingPage & Document;
 
+export enum statusEnum {
+  "ACTIVE",
+  "REJECTED",
+  "PENDING",
+  "OBSOLETE"
+} 
+
 @Schema({ timestamps: true })
 export class StagingPage {
   @Prop({ required: true, type: Types.ObjectId, ref: "Users" })
@@ -23,7 +30,7 @@ export class StagingPage {
   @Prop({ default: "none" })
   about: string;
 
-  @Prop({ default: "none" })
+  @Prop({ default: "ACTIVE", enum: Object.values(statusEnum) })
   status: string;
 
   @Prop({ default: null })

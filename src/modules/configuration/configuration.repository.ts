@@ -26,4 +26,14 @@ export class ConfigurationRepository {
     const type = updateConfigurationDto.type;
     return this.configurationModel.findOneAndUpdate({ type }, updateConfigurationDto ,{new: true}).exec();
   }
+
+  
+  async updateManyById(ids:[string], updateConfigurationDto: UpdateConfigurationDto): Promise<Configuration[]> {
+    const updatedUsers = [];
+    for await(let id of ids){
+    const updatedUser = await this.configurationModel.findOneAndUpdate({ _id:id },updateConfigurationDto,{new: true});
+    if(updatedUser) updatedUsers.push(updatedUser);
+    }
+    return updatedUsers;
+  }
 }

@@ -3,6 +3,18 @@ import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
+export enum roleEnum {
+  "FAN",
+  "ARTIST",
+  "ADMIN",
+} 
+
+export enum userStatus {
+  "ACTIVE",
+  "PENDING",
+  "BANNED",
+}
+
 @Schema({ timestamps: true })
 export class User {
   @Prop({ required: true })
@@ -14,7 +26,7 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ default:"FAN", enum: ["FAN", "ARTIST", "ADMIN"] })
+  @Prop({ default:"FAN", enum: Object.values(roleEnum) })
   public role: string;
 
   @Prop({ default: "none" })
@@ -80,7 +92,7 @@ export class User {
   @Prop({ default: null })
   updatedAt: Date; 
 
-  @Prop({ default:"ACTIVE", enum: ["ACTIVE", "PENDING", "BANNED"] })
+  @Prop({ default:"ACTIVE", enum: Object.values(userStatus) })
   status: string; 
 }
 

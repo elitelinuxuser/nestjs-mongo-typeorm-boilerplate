@@ -28,10 +28,19 @@ export class PageService {
     else return this.stagingPageService.create(createPageDto);
   }
 
-  async update(updatePageDto: UpdatePageDto): Promise<Page> {
+  async update(id:string, updatePageDto: UpdatePageDto): Promise<Page> {
     const autoApproveEnabled = await this.configurationService.findOne("AUTO_APPROVE_TIER");
-    if (autoApproveEnabled) return this.pageRepository.update(updatePageDto);
-    else return this.stagingPageService.updatePage(updatePageDto);
+    if (autoApproveEnabled) return this.pageRepository.update(id,updatePageDto);
+    else {
+      const pageData = await this.pageRepository.findOne(id);
+      if(pageData) {
+        const keys = Object.keys(pageData);
+        keys.map(key=>{
+          if(updatePageDto[key] && updatePageDto[key] !== pageData[key] ) pageData[key] = updatePageDto[key]
+        })
+        return this.stagingPageService.create(pageData);
+      } else return null;
+    }
   }
 
 }

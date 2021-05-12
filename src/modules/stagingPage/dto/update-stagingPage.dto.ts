@@ -1,8 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { CreateStagingPageDto } from './create-stagingPage.dto';
+import { CreatePageDto } from '../../page/dto/create-page.dto';
 
-export class UpdateStagingPageDto extends PartialType(CreateStagingPageDto) {
-    @IsNotEmpty()
-    id:String;
-}
+export class UpdateStagingPageDto extends PartialType(CreatePageDto) {}

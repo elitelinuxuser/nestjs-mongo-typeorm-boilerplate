@@ -3,10 +3,16 @@ import { Document, Types } from 'mongoose';
 
 export type PageDocument = Page & Document;
 
+export enum statusEnum {
+  "ACTIVE",
+  "REJECTED",
+  "PENDING",
+} 
+
 @Schema({ timestamps: true })
 export class Page {
   @Prop({ required: true, type: Types.ObjectId, ref: "Users" })
-  public user!: Ref<unknown>;
+  user: Ref<unknown>;
 
   @Prop({ default: "none" })
   coverImage: string;
@@ -23,7 +29,7 @@ export class Page {
   @Prop({ default: "none" })
   about: string;
 
-  @Prop({ default: "ACTIVE", enum: ["ACTIVE", "REJECTED", "PENDING"] })
+  @Prop({ default: "ACTIVE", enum: Object.values(statusEnum) })
   status: string;
 
   @Prop({ default: null })

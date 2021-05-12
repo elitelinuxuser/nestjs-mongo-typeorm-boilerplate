@@ -24,12 +24,12 @@ export class UserService {
     return this.userRepository.findOne(id);
   }
 
-  async update(updateUserDto: UpdateUserDto): Promise<User> {
-    return this.userRepository.update(updateUserDto);
+  async update(id:string, updateUserDto: UpdateUserDto): Promise<User> {
+    return this.userRepository.update(id, updateUserDto);
   }
 
-  async updateMany(updateUserDtos: [UpdateUserDto]): Promise<User[]> {
-    return this.userRepository.updateMany(updateUserDtos);
+  async updateMany(ids:[string], updateUserDto: UpdateUserDto): Promise<User[]> {
+    return this.userRepository.updateMany(ids,updateUserDto);
   }
 
   async ban(id: string): Promise<User> {

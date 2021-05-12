@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, Contains, isDate } from 'class-validator';
+import { IsEmail, IsNotEmpty, Contains, IsDate, IsEnum } from "class-validator";
+import { roleEnum, userStatus } from "../entities/user.entity";
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -10,7 +11,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 
-  @Contains("FAN | ARTIST | ADMIN")
+  @IsEnum(roleEnum)
   role: string
 
   coverImage: string;
@@ -35,21 +36,22 @@ export class CreateUserDto {
 
   activated: Boolean;
 
-  @isDate()
+  @IsDate()
   activatedAt: Date;
 
-  @isDate()
+  @IsDate()
   createdAt: Date;
 
-  @isDate()
+  @IsDate()
   creatorOnboarded: Date;
 
-  @isDate()
+  @IsDate()
   firstAppLogin: Date;
 
-  @isDate()
+  @IsDate()
   updatedAt: Date;
 
+  @IsEnum(userStatus)
   status: string;
 
   billingState: string;

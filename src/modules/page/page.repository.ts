@@ -13,7 +13,7 @@ export class PageRepository {
   constructor(@InjectModel(Page) private pageModel: Model<PageDocument>) {}
 
   async create(createPageDto: CreatePageDto): Promise<Page> {
-   let pageData = createPageDto;
+   const pageData = createPageDto;
    pageData.status = "ACTIVE";
    const newPage = new this.pageModel.create(pageData);
     return newPage.save();
@@ -27,17 +27,28 @@ export class PageRepository {
     return this.pageModel.findById(id).exec();
   }
 
-  async update(updatePageDto: UpdatePageDto): Promise<Page> {
-    const id = updatePageDto.id;
-    return this.pageModel.findOneAndUpdate({ id }, updatePageDto,{new: true}).exec();
+  async update(id:string, updatePageDto: UpdatePageDto): Promise<Page> {
+    return this.pageModel.findOneAndUpdate({ _id:id }, updatePageDto,{new: true}).exec();
   }
 
-  async updateMany(updatePageDtos: [UpdatePageDto]): Promise<Page[]> {
-    let updatedPages = [];
-    for await(let updatePageDto of updatePageDtos){
-    let id = updatePageDto.id; 
-    let updatedPage = await this.pageModel.findOneAndUpdate({ id },updatePageDto,{new: true});
-    updatedPage ? updatedPages.push(updatedPage) : null;
+  async updateMany(ids:[string],updatePageDto: UpdatePageDto): Promise<Page[]> {
+    const updatedPages = [];
+    for await(let _id of ids){
+    const updatedPage = await this.pageModel.findOneAndUpdate({ _id },updatePageDto,{new: true});
+    if (updatedPage) updatedPages.push(updatedPage);
+    }
+    return updatedPages;
+  }
+
+  async updateByFilter(filter:FilterPageDto, updatePageDto: UpdatePageDto): Promise<Page> {
+    return this.pageModel.findOneAndUpdate(filter, updatePageDto,{new: true}).exec();
+  }
+
+  async updateManyByFilters(filters:[FilterPageDto],updatePageDto: UpdatePageDto): Promise<Page[]> {
+    const updatedPages = [];
+    for await(let filter of filters){
+    const updatedPage = await this.pageModel.findOneAndUpdate(filter,updatePageDto,{new: true});
+    if (updatedPage) updatedPages.push(updatedPage);
     }
     return updatedPages;
   }

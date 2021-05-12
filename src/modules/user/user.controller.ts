@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Body,
+  Put,
   Patch,
   Param,
   Delete,
@@ -39,14 +40,14 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Post()
-  update(@Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(updateUserDto);
+  @Put()
+  update(@Body() id:string, updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
-  @Post()
-  updateMany(@Body() updateUserDtos: [UpdateUserDto]) {
-    return this.userService.updateMany(updateUserDtos);
+  @Put()
+  updateMany(@Body() ids:[string], updateUserDto: UpdateUserDto) {
+    return this.userService.updateMany(ids,updateUserDto);
   }
 
   @Get(':id')

@@ -1,62 +1,40 @@
-import { IsEmail, IsNotEmpty, Contains, isDate, IsMongoId } from 'class-validator';
+import { IsEmail, IsNotEmpty, Contains, IsDate, IsMongoId, IsEnum } from 'class-validator';
+import { statusEnum } from "../entities/page.entity";
 
 export class CreatePageDto {
   @IsMongoId()
   user: string;
 
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
-  password: string;
-
-  @Contains("FAN | ARTIST | ADMIN")
-  role: string
-
   coverImage: string;
 
-  gstin: string;
+  introVideo: string;
 
-  photoURL: string;
+  @IsNotEmpty()
+  username:string;
 
-  phone: string;
+  creating: string;
 
-  address: string;
+  about: string;
 
-  profession: string;
+  @IsEnum(statusEnum)
+  status: string;
+
+  social:Object;
 
   premium: string;
 
-  provider: string;
-
-  referral: string;
-
-  appLink: string;
-
-  activated: Boolean;
-
-  @isDate()
-  activatedAt: Date;
-
-  @isDate()
+  @IsDate()
   createdAt: Date;
 
-  @isDate()
-  creatorOnboarded: Date;
+  @IsDate()
+  lastUpdated: Date; 
+  
+  @IsMongoId()
+  rssTier: string;
 
-  @isDate()
-  firstAppLogin: Date;
+  onboardingEmails: Number;
 
-  @isDate()
-  updatedAt: Date;
+  gstin: string;
 
-  status: string;
-
-  billingState: string;
-
-  tourCompleted: Boolean;
-
-  updatedPhone: Boolean;
-
-  registeredOnApp: Boolean;
+  isGSTComplete: Boolean;
 }
