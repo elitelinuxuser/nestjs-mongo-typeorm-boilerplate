@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Body,
+  Put,
   Patch,
   Param,
   Delete,
@@ -23,6 +24,12 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Post()
+  @UseFilters(MongoExceptionFilter)
+  createMany(@Body() createUserDtos: [CreateUserDto]) {
+    return this.userService.createMany(createUserDtos);
+  }
+
   @Get()
   findAll() {
     return this.userService.findAll();
@@ -33,13 +40,33 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  @Put()
+  update(@Body() id:string, updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  @Put()
+  updateMany(@Body() ids:[string], updateUserDto: UpdateUserDto) {
+    return this.userService.updateMany(ids,updateUserDto);
+  }
+
+  @Get(':id')
+  ban(@Param('id') id: string) {
+    return this.userService.ban(id);
+  }
+
+  @Post()
+  banMany(@Body() ids: [string]) {
+    return this.userService.banMany(ids);
+  }
+
+  @Get(':id')
+  unban(@Param('id') id: string) {
+    return this.userService.unban(id);
+  }
+
+  @Post()
+  unbanMany(@Body() ids: [string]) {
+    return this.userService.unbanMany(ids);
   }
 }
